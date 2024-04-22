@@ -170,3 +170,7 @@ config
 artifacts/src/github.com/fabcar/go/go.mod
 go1.22.1.linux-amd64.tar.gz
 log.txt
+artifacts/channel/Dist1MSPanchors.tx
+artifacts/channel/Dist2MSPanchors.tx
+artifacts/channel/Dist3MSPanchors.tx
+artifacts/channel/ClientsMSPanchors.tx

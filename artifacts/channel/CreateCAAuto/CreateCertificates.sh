@@ -1,13 +1,23 @@
 #!/bin/bash
 # set -x
 
-num_organizaions=5
-orgNames=("Dist1" "Dist2" "Dist3" "Clients" "orderer")
-# orgNames=("Clients" "LandInspectors" "Orderers")
-OrgPortNumbers=(7054 8054 10054 11054 9054)
-peers_per_Org=(2 2 2 2 0)
-Orderers_per_Org=(0 0 0 0 3)
-IsOrdererOrg=(0 0 0 0 1)
+# num_organizaions=3
+# orgNames=("Dist1"  "Dist2"   "Dist3"   "Clients"   "orderer")
+# OrgPortNumbers=(8054     12054      14054     16054       10054)
+# peers_per_Org=(2        2         2         2           0)
+# Orderers_per_Org=(0       0         0         0           3)
+# IsOrdererOrg=(0        0         0         0           1)
+
+
+orgNames=("org1"  "org2" "orderer")
+OrgPortNumbers=(8054  12054 10054)
+peers_per_Org=(15  15 0)
+Orderers_per_Org=(0 0 3)
+IsOrdererOrg=(0 0 1)
+users_per_org=(30 30 1)
+
+
+# Orderer Port number, name and orderers are hard-coded for now...
 
 
 # export PATH=${PWD}/../../../bin:$PATH;
@@ -192,7 +202,6 @@ createcertificatesForOrg() {
   
 
 createCertificatesForOrderer(){
-  # TODO: Change Orderer Certificates (Generate from Above Config)
 
   echo3 Orederer CA
   echo
@@ -361,31 +370,32 @@ createCertificatesForOrderer(){
 }
 
 
-echo3 Starting CA containers...
+# echo3 Starting CA containers...
 
-create_DockerComposer_Yaml
-sudo rm -rf fabric-ca/*
-docker-compose -f ./docker-compose.yaml up -d
-docker ps
+# #TODO: Generate all District level CA from common CA...
+# create_DockerComposer_Yaml
+# sudo rm -rf fabric-ca/*
+# docker-compose -f ./docker-compose.yaml up -d
+# docker ps
 
-sleep 5
+# sleep 5
 
-sudo rm -rf crypto-config-ca/*
+# sudo rm -rf crypto-config-ca/*
 
-itr=0
-while [ $itr -lt $num_organizaions ]
-do
-  if [ ${IsOrdererOrg[$itr]} -eq 0 ]; then
-    createcertificatesForOrg ${orgNames[$itr]} ${peers_per_Org[$itr]} ${OrgPortNumbers[$itr]} 
-  else 
-    createCertificatesForOrderer 
-  fi
-  itr=`expr $itr + 1`
-done
+# itr=0
+# while [ $itr -lt $num_organizaions ]
+# do
+#   if [ ${IsOrdererOrg[$itr]} -eq 0 ]; then
+#     createcertificatesForOrg ${orgNames[$itr]} ${peers_per_Org[$itr]} ${OrgPortNumbers[$itr]} 
+#   else 
+#     createCertificatesForOrderer 
+#   fi
+#   itr=`expr $itr + 1`
+# done
 
-echo3 All certificates are generated...
+# echo3 All certificates are generated...
 
-# TODO: create artifects before starting docker-compose ...
+
 
 
 touch docker-compose2.yaml
